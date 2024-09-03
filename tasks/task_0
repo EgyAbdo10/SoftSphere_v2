@@ -1,0 +1,135 @@
+build a console:
+     
+    1- identify models
+        structure:
+            models/
+                1- __init__.py:
+                    1- the file must create a storage engine instance based on env variables
+                            after importing storage engines from engnines package
+                    2- reload storage
+
+                2- base_model.py:
+                    - declare class "baseModel":
+                    - the objects of the class must have the following attributes:
+
+                        id: by default --> uuid()
+                        created_at: by default --> time now in utc (aware)
+                        if there is an input passed, it will be like this "2024-08-06T21:23:42"
+                                                                          "YEAR-M-D H:Min:Sec"
+                        updated_at: by default --> time now in utc (aware)
+                        if there is an input passed, it will be like this "2024-08-06T21:23:42"
+                                                                          "YEAR-M-DTH:Min:Sec"
+
+                    - the objects of the class must have the following methods:
+                        __str__:
+                        """string representation of an object with the follwoing format:
+                           [<class name>] (<self.id>) <self.__dict__>"""
+                           return the above representation of the object
+                        
+                        def save(self):
+                        save the object in the storage engine after modifying the "updated_at" attribute to time now in UTC
+                        
+                        def to_dict():
+                                return a dict having the following keys and values:
+                                "__class__": class name of the object
+                                "created_at": creation date in iso format
+                                "updated_at": update date in iso format
+                                
+                                the dict also must have all other attributes set to the object
+                                
+                                
+                3- project.py
+                    the class must have teh following attributes:
+                            category VARCHAR(255) --> must be chose from a list like ["programming", "marketing", "arts", "gaming", "education"],
+                            name VARCHAR(255) NOT NULL,
+                            description TEXT NULL,
+                            developer_id INT NOT NULL, --> FOREIGN KEY (developer_id)
+                            tools_used JSON NULL, --> array of all tool ids used for the project
+                            video VARCHAR(255) NULL,
+                            images JSON NULL, ---> for passing a list of images urls
+
+                4- users.py
+                    the class must have the following attributes:
+                            first_name VARCHAR(255) NOT NULL,
+                            last_name VARCHAR(255) NOT NULL,
+                            user_type ENUM('developer', 'employer') NOT NULL,
+                            username VARCHAR(255) NOT NULL UNIQUE,
+                            password VARCHAR(255) NOT NULL,
+                            email VARCHAR(255) NOT NULL UNIQUE
+
+                5- tools.py
+                    the class must have the following attributes:
+                            tool_name string,
+
+                6- project_tools.py ---> not inheriting from base model:
+                    the class must have the following attributes:
+                            project_id foreign key,\
+                                                    -----> primary key
+                            tool_id foreign key,   /
+
+                7- category.py
+                    the class must have the following attributes:
+                            category_name string,
+
+
+
+
+
+        2- identify storage engines
+            1- build a json file storage engine:
+                engines/
+                1- __init__.py --> empty to just make it a package
+                2- file_storage.py:
+                    class must have:
+                        __objects = {}
+                    class must have methods like:
+                        1- all(class_name=None)
+                            get all instances of a class
+                                and return them in a dict format (use to_dict method in the)
+                                where the keys are (class_name of the object + "." + obj.id) | and |values are objs them selves
+                        
+                        2- new(self, obj)
+                            add a new object to the __objects dict:
+                            where the key is (class_name of the object + "." + obj.id) | and |value is the obj
+                        
+                        3- save(self)
+                            itarate over dict items and create a new dict:
+                            where the keys are the same and the values are the dictionary representaion of the objects (using to_dict())
+                            and then save the newly created dict to the .json file
+
+                        4- reload(self)
+                            open the file storage and then get load data with json
+                            replace the dict representation in the dictionary values by the real objects
+                            and then save the result in a the __object variable
+
+    3- operations on the console
+        1- all:
+            command => all Project
+                        the arg after all is optional
+                        if arg_2 not existed, print all of the objects from all classes
+        2- create:
+            command => create Project {"category":"gaming"}
+                        the arg after class name is optional
+                        print the project in the dict format using to_dict()
+                        if class name not existing:
+                            print "class does not exist"
+                        if attribute not in the list of allowed attributes:
+                            print "attribute does not exist"
+        3- update:
+            command => update Project 12x3-34r5-24f4-234d {"name": "Softsphere"}
+                        print the current object after updating and after changind update date
+                        if class name not existing:
+                            print "class does not exist"
+                        
+                        if id not exists:
+                            print "id does nto exist"
+
+                        if attribute not in the list of allowed attributes:
+                            print "attribute does not exist"
+        4- delete:
+            command => delete project 12x3-34r5-24f4-234d
+                        if class name not existing:
+                            print "class does not exist"
+                        
+                        if id not exists:
+                            print "id does nto exist"

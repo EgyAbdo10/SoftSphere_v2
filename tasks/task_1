@@ -1,0 +1,217 @@
+add mysql db (ORMs):
+    if SOS_STORAGE_TYPE = db:
+
+        use the DBStorage engine and get the follwoing env variables:
+            SOS_USR = username by default --> SOS_user
+            SOS_PWD = password by default --> SOS_password
+            SOS_HOST = host by default --> localhost
+            SOS_DB = db name by default --> SOS_db_dev
+
+    else:
+        use the FileStorage engnie
+    
+
+    1- identify models
+        structure:
+            models/
+                1- __init__.py:
+                    1- the file must create a storage engine instance based on env variables
+                            after importing storage engines from engnines package
+                    2- reload storage
+
+                2- base_model.py:
+                    - declare class "baseModel":
+                    - inherits from Base which is a declarative_base() instance
+                    - the objects of the class must have the following attributes:
+
+                        id: Columns(sting(60), primary key, not null) , by default --> uuid()
+                        created_at:Column(datetime, not null) by default --> time now in utc (aware)
+                        if there is an input passed, it will be like this "2024-08-06T21:23:42"
+                        "YEAR-MO-DTH:Min:Sec"
+                        updated_at:Column(datetime, not null) , by default --> time now in utc (aware)
+                        if there is an input passed, it will be like this "2024-08-06T21:23:42"
+                        "YEAR-M-DTH:Min:Sec"
+
+                    - the objects of the class must have the following methods:
+                        __str__:
+                        """string representation of an object with the follwoing format:
+                           [<class name>] (<self.id>) <self.__dict__>"""
+                           return the above representation of the object
+                        
+                        def save(self):
+                        save the object in the storage engine after modifying the "updated_at" attribute to time now in UTC
+                        add, the commit to the database and modify the updated_at attribute
+                        
+                        def to_dict():
+                                return a dict having the following keys and values:
+                                "__class__": class name of the object
+                                "created_at": creation date in iso format
+                                "updated_at": update date in iso format
+                                
+                                the dict also must have all other attributes set to the object
+                                
+                                
+                3- project.py
+                    the class must have the following attributes:
+                            category VARCHAR(255) --> Forein key from category table --> "Category_name" column
+                            name VARCHAR(255) NOT NULL,
+                            description TEXT NULL,
+                            user_id INT NOT NULL, --> FOREIGN KEY (user_id)
+                            tools_used JSON NULL, --> array of all tool ids used for the project
+                            video VARCHAR(255) NULL --> video_url --> if the image is on device use the following naming convention:
+                                "project_id-0.vid_extension",
+                            images JSON NULL, ---> for passing a list of images urls
+                            --> if the image is on device use the following naming convention:
+                                "project_id-img_no.img_extension"
+
+                create a bridgine table "project_tools":
+                ---> not inheriting from base model:
+                    the class must have the following attributes:
+                        project_id foreign key,\
+                                                -----> primary key
+                        tool_id foreign key,   /
+                        tool_version String(60)
+                
+                create a bridgine table "project_category":
+                ---> not inheriting from base model:
+                the class must have the following attributes:
+                        project_id foreign key,\
+                                                -----> primary key
+                        category_id foreign key,   /
+
+
+                4- users.py
+                    the class must have the following attributes:
+                            first_name VARCHAR(255) NOT NULL,
+                            last_name VARCHAR(255) NOT NULL,
+                            user_type ENUM('developer', 'employer') NOT NULL,
+                            username VARCHAR(255) NOT NULL UNIQUE,
+                            password VARCHAR(255) NOT NULL,
+                            email VARCHAR(255) NOT NULL UNIQUE
+
+                5- tools.py
+                    the class must have the following attributes:
+                            name String(60) not NULL
+
+
+                6- category.py
+                    the class must have the following attributes:
+                            name string(60),
+                
+
+
+
+
+
+        2- identify storage engines
+            1- build 2 storage engines:
+                engines/
+                1- __init__.py --> empty to just make it a package
+                2- file_storage.py:
+                    class must have:
+                        __objects = {}
+                    class must have methods like:
+                        1- all(class_name=None)
+                            get all instances of a class
+                                and return them in a dict format (use to_dict method in the)
+                                where the keys are (class_name of the object + "." + obj.id) | and |values are objs themselves
+                        
+                        2- new(self, obj)
+                            add a new object to the __objects dict:
+                            where the key is (class_name of the object + "." + obj.id) | and |value is the obj
+                        
+                        3- save(self)
+                            itarate over dict items and create a new dict:
+                            where the keys are the same and the values are the dictionary representaion of the objects (using to_dict())
+                            and then save the newly created dict to the .json file
+
+                        4- reload(self)
+                            open the file storage and then get load data with json
+                            replace the dict representation in the dictionary values by the real objects
+                            and then save the result in a the __object variable
+                
+                3- db_storage.py:
+                    class BDStorage:
+                    must have the following attributes:
+                        __engine = None,
+                        __session = None
+                    
+                    must have the follwoing methods:
+                    
+                    def __init__(self):
+                    get the values of the following env variables using getenv
+                    or set it to the default value if it is not defined:
+                        SOS_USR = username by default --> SOS_user
+                        SOS_PWD = password by default --> SOS_password
+                        SOS_HOST = host by default --> localhost
+                        SOS_DB = db name by default --> SOS_db_dev
+
+                    create an engine and set it to the __engine attribute
+                    and set "pool_pre_ping" to "True" to keep the connection alive
+
+
+                    def all(self, cls=None):
+                        get all instances of a class
+                        and return them in a dict format (use to_dict method)
+                        where the keys are (class_name of the object + "." + obj.id) | and |values are the dict representation of the objs
+
+                        query all the objects of the class_name provided
+                        or get all objects if cls_name is None
+                        note that teh cls could be the class iteself or its name
+                    
+                    def new(self):
+                        add the new object to the current session:
+                    
+                    def save(self):
+                        commit all added objects to the current session
+                    
+                    def delete(self):
+                        delete an object from the db
+
+                    def reload(self):
+                        create a scoped_session and assign it to __session and create all tables of the datebase
+                        
+                        create all tables if not exists
+                        create a session factory using sessionmaker
+                        create a scoped session
+                        assign the __session to the scoped session
+
+                    
+
+                        
+
+
+
+
+    3- operations on the console
+        1- all:
+            command => all Project
+                        the arg after all is optional
+                        if arg_2 not existed, print all of the objects from all classes
+        2- create:
+            command => create Project {"category":"gaming"}
+                        the arg after class name is optional
+                        print the project in the dict format using to_dict()
+                        if class name not existing:
+                            print "class does not exist"
+                        if attribute not in the list of allowed attributes:
+                            print "attribute does not exist"
+        3- update:
+            command => update Project 12x3-34r5-24f4-234d {"name": "Softsphere"}
+                        print the current object after updating and after changind update date
+                        if class name not existing:
+                            print "class does not exist"
+                        
+                        if id not exists:
+                            print "id does nto exist"
+
+                        if attribute not in the list of allowed attributes:
+                            print "attribute does not exist"
+        4- delete:
+            command => delete project 12x3-34r5-24f4-234d
+                        if class name not existing:
+                            print "class does not exist"
+                        
+                        if id not exists:
+                            print "id does nto exist"
+    
