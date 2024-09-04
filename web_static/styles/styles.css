@@ -1,0 +1,193 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /**/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.sticky-header .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.sticky-header .nav-links {
+    display: flex;
+    gap: 3rem;
+}
+
+.sticky-header .nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.sticky-header .nav-links a:hover {
+    color: green;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+.sign-in-button {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sign-in-button:hover {
+    background-color: darkgreen;
+}
+
+div.welcome {
+    background-color: #013b12ff;
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 50px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    flex-wrap:wrap;
+    gap: 5px;
+}
+
+div.welcome h1 {
+    color: rgb(0, 255, 187);
+    font-family: "SUSE", sans-serif;
+    font-style: bold;
+    font-size: 2.5rem;
+    /* background-color: blue; */
+    position: relative;
+    bottom: 40px;
+}
+
+div.welcome h1 span {
+    color: rgb(179, 235, 95);
+}
+
+.search-bar {
+    padding: 0.5rem;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    width:450px;
+    height: 50px;
+    display: block;
+}
+
+button.search-icon {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    background-color: greenyellow;
+    position: relative;
+    display: block;
+    left: 400px;
+    top: -50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button.search-icon div {
+    background-image: url("../images/magnifying-glass.png");
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+
+}
+
+section.categories {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 200px;
+    gap: 50px;
+    flex-wrap: wrap;
+    /* background-color: blue; */
+}
+
+section.categories article {
+    width: 150px;
+    height: 150px;
+    background-color: rgba(244, 239, 239, 0.598);
+    z-index: 2;
+    border-radius: 20px;
+    /* font-style: bold; */
+    /* [horizontal-offset] [vertical-offset] [blur-radius] [spread-radius] [color]; */
+    /* box-shadow: 1px 5px 10px 7px black; */
+    box-shadow: -1px 5px 5px rgb(60, 58, 58);
+    position: relative;;
+}
+
+section.categories article span {
+    bottom: 30px;
+    left: 30px;
+    display: block;
+    font-family: "Bebas Neue" ,sans-serif;
+    font-size: 1.5rem;
+    position: absolute;
+}
+
+section.categories article div {
+    /* position: fixed; */
+    position: absolute;
+    top:20px;
+    left:30px;
+    width:50px;
+    height: 50px;
+    /* background-repeat: no-repeat; */
+    background-size: cover;
+}
+
+section.categories article.programming div{
+    background-image: url("../images/web-programming.png");
+}
+section.categories article.marketing div{
+    background-image: url("../images/bullhorn.png");
+}
+section.categories article.gaming div{
+    background-image: url("../images/console.png");
+}
+section.categories article.video-editing div{
+    background-image: url("../images/video-editor.png");
+}
+section.categories article.photo-editing div{
+    background-image: url("../images/edit-image.png");
+}
+section.categories article.accounting div{
+    background-image: url("../images/accounting.png");
+}
+section.categories article.education div{
+    background-image: url("../images/graduation-cap.png");
+}
+section.categories article.health div{
+    background-image: url("../images/heart-beat.png");
+}
+section.categories article.food div{
+    background-image: url("../images/restaurant.png");
+}
