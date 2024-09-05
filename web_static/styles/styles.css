@@ -110,6 +110,7 @@ button.search-icon {
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: -1px 2px 2px black;
 }
 
 button.search-icon div {
@@ -135,13 +136,13 @@ section.categories article {
     width: 150px;
     height: 150px;
     background-color: rgba(244, 239, 239, 0.598);
-    z-index: 2;
+    /* z-index: 2; */
     border-radius: 20px;
     /* font-style: bold; */
     /* [horizontal-offset] [vertical-offset] [blur-radius] [spread-radius] [color]; */
     /* box-shadow: 1px 5px 10px 7px black; */
     box-shadow: -1px 5px 5px rgb(60, 58, 58);
-    position: relative;;
+    position: relative;
 }
 
 section.categories article span {
@@ -164,6 +165,7 @@ section.categories article div {
     background-size: cover;
 }
 
+/* addign categories icons */
 section.categories article.programming div{
     background-image: url("../images/web-programming.png");
 }
@@ -190,4 +192,76 @@ section.categories article.health div{
 }
 section.categories article.food div{
     background-image: url("../images/restaurant.png");
+}
+
+.explore_text {
+    font-family: "Bebas Neue", 'Times New Roman', Times, serif ;
+    font-size: 5rem;
+    width: 100px;
+    height: 100px;
+    /* position: relative; */
+    margin-left: 100px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+section.explore {
+    /* background-color: blue; */
+    height: 550px;
+    display: flex;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    flex-wrap: wrap;
+    /* padding-top: 30px; */
+}
+
+section.explore article {
+    width: 350px;
+    height: 500px;
+    background-color: antiquewhite;
+    border-radius: 80px;
+    overflow: hidden;
+    box-shadow: -1px 5px 5px 2px rgb(38, 37, 37);
+}
+
+section.explore article .poster {
+    background-color: aqua;
+    height: 200px;
+}
+
+section.explore article .data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding-left: 5px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+section.explore article .project-name {
+    font-family: "New Amsterdam", sans-serif;
+    font-size: 50px;
+}
+
+section.explore article .tools {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+section.explore article .description_text {
+    /* height: 70px; */
+    /* white-space: nowrap; */
+    /* display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    overflow:hidden;
+    text-overflow: ellipsis; */
+    height:80px;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
