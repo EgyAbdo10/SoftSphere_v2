@@ -13,6 +13,7 @@ from models.users import User
 import json
 from models import storage
 from sqlalchemy.exc import DataError, IntegrityError
+import re
 # from sqlalchemy.exc import PendingRollbackError
 
 cls_names = {"BaseModel": BaseModel, "Category": Category,
@@ -45,7 +46,7 @@ class SoftSCommand(cmd.Cmd):
         if not arg:
             print("** class name is missing **")
         else:
-            args_list = arg.split(" ")
+            args_list = re.split(r'\s+', arg)
             cls_name = args_list[0]
             if cls_name in cls_names.keys():
                 attrs_dict = {}
@@ -88,7 +89,7 @@ class SoftSCommand(cmd.Cmd):
         if class name not existing:
         print "class does not exist"
         """
-        args_list = arg.split(" ")
+        args_list = re.split(r'\s+', arg)
         if not arg:
             print("** class name is missing **")
         elif args_list[0] not in cls_names.keys():
@@ -127,7 +128,7 @@ class SoftSCommand(cmd.Cmd):
         command => show Project 123-44d-553
         show all attributes of an object
         """
-        args_list = arg.split(" ")
+        args_list = re.split(r'\s+', arg)
         if not arg:
             print("** class name is missing **")
         elif args_list[0] not in cls_names.keys():
@@ -149,7 +150,7 @@ class SoftSCommand(cmd.Cmd):
         if class name not existing:
         print "class does not exist"
         """
-        args_list = arg.split(" ")
+        args_list = re.split(r'\s+', arg)
         if not arg:
             print("** class name is missing **")
         elif args_list[0] not in cls_names.keys():
