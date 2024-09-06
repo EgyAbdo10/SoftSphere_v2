@@ -227,8 +227,32 @@ section.explore article {
 }
 
 section.explore article .poster {
-    background-color: aqua;
+    background-color: rgb(0, 255, 255);
     height: 200px;
+}
+
+section.explore article.project-X .poster{
+    background-image: url("../images/project-X_poster.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+section.explore article.edumy .poster{
+    background-image: url("../images/edumy_project.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+section.explore article.fedora .poster{
+    background-image: url("../images/fedora_project.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+section.explore article.stormy .poster{
+    background-image: url("../images/stormy_project.jpg");
+    background-size: cover;
+    background-position: center;
 }
 
 section.explore article .data {
