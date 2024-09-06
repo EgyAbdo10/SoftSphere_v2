@@ -23,13 +23,16 @@ class BaseModel:
         created_at = Column("created_at", DateTime, nullable=False)
         updated_at = Column("updated_at", DateTime, nullable=False)
 
-    def __init__(self, id=str(uuid4()),
-                created_at=datetime.now(timezone.utc),
-                updated_at=datetime.now(timezone.utc)):
+    def __init__(self, **kwargs):
         """Instatntiates a new BaseModel with id, created_at and updated_at"""
-        self.id = id
-        self.created_at = created_at
-        self.updated_at = updated_at
+        if "id" not in kwargs:
+            self.id = str(uuid4())
+        if "created_at" not in kwargs:
+            self.created_at = datetime.now(timezone.utc)
+        if "updated_at" not in kwargs:
+            self.updated_at = datetime.now(timezone.utc)
+        for key, val in kwargs.items():
+            setattr(self, key, val)
 
     def __str__(self):
         """

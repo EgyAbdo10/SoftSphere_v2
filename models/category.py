@@ -3,12 +3,14 @@
 
 from models.base_model import BaseModel, Base, storage_type
 from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
 class Category(BaseModel, Base):
     """create Categories instances"""
     if storage_type == "db":
         __tablename__ = "categories"
         name = Column("name", String(60), nullable=False)
+        projects = relationship("Project", backref="category")
     else:
         name = ""
     def __init__(self, **kwargs):

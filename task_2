@@ -1,0 +1,31 @@
+1- modify the header element:
+    1- center the nav links and only leave (Categories, How it works, Contact)
+    2- remove the search bar
+    3- add a circle at the rightmost side of the header
+
+2- Welcome div
+    1- remove the start-your-journey button
+    2- add a div with rounded edges that has a green-clored background and add some shapes on it
+    3- insert the slogan and Welcome text into the newly added div and center it
+
+3- categories section:
+    1- create a section tag and make it a flaxbox (container)
+    2- add a div for each category with the category name inside it and an icon
+    3- add arrows and scrolling functionality
+    4- navigate to the selected category by using /project?<fieldName>
+
+4- explore projects section:
+    1- show all projects with each row having 2-3 projects
+    2- each project must in the following form:
+        ___________________
+        |                 |
+        |      image      |
+        |_________________|
+        |name:            |
+        |category:        |
+        |developer:       |
+        |used tools:      |
+        |description:     |
+        |                 |
+        |                 |
+        ___________________

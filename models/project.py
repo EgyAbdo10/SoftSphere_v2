@@ -37,6 +37,9 @@ class Project(BaseModel, Base):
         user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
         tools = relationship("Tool", secondary="project_tools", viewonly=False)
 
+        def to_dict(self):
+            return super().to_dict()
+
     else:
         name = ""
         description = ""
@@ -66,4 +69,3 @@ class Project(BaseModel, Base):
         super().__init__()
         for key, val in kwargs.items():
             setattr(self, key, val)
-        

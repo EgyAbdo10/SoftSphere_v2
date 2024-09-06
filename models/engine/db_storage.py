@@ -53,14 +53,14 @@ class DBStorage:
             objs = self.__session.query(cls).all()
             for obj in objs:
                 key = obj.__class__.__name__ + "." + str(obj.id)
-                new_dict[key] = obj.to_dict()
+                new_dict[key] = obj
 
         else:
             for cls in cls_names.values():
                 objs = self.__session.query(cls).all()
                 for obj in objs:
                     key = obj.__class__.__name__ + "." + str(obj.id)
-                    new_dict[key] = obj.to_dict()
+                    new_dict[key] = obj
 
         return new_dict
     
@@ -80,6 +80,7 @@ class DBStorage:
         """delete an object from the db"""
         try:
             self.__session.delete(obj)
+            self.__session.commit()
             return True
         except:
             return False
@@ -100,4 +101,20 @@ class DBStorage:
         obj = self.__session.query(
                 cls_names[cls_name]).filter_by(id=id).first()
         return obj
-        
+    
+    def count(self, cls_name=None):
+        """
+        count all objects of a class or 
+        count all objects from all classes
+        """
+        count = 0
+        if cls_name in cls_names:
+            count = len(self.all(cls_name))
+        else:
+            for cls_name in cls_names:
+                count += len(self.all(cls_name))
+        return count
+
+    def close(self):
+        """close session"""
+        self.__session.close()

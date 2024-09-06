@@ -29,16 +29,16 @@ class FileStorage:
         if cls in cls_names.values():
             for key, val in FileStorage.__objects.items():
                 if val.__class__ == cls:
-                    new_dict[key] = val.to_dict()
+                    new_dict[key] = val
 
         elif cls in cls_names.keys():
             for key, val in FileStorage.__objects.items():
                 if val.__class__.__name__ == cls:
-                    new_dict[key] = val.to_dict()
+                    new_dict[key] = val
 
         else:
             for key, val in FileStorage.__objects.items():
-                new_dict[key] = val.to_dict()
+                new_dict[key] = val
 
         return new_dict
     
@@ -102,3 +102,21 @@ class FileStorage:
             return self.__objects[f"{cls_name}.{id}"]
         except:
             return None
+        
+
+    def count(self, cls_name=None):
+        """
+        count all objects of a class or 
+        count all objects from all classes
+        """
+        count = 0
+        if cls_name in cls_names:
+            count = len(self.all(cls_name))
+        else:
+            for cls_name in cls_names:
+                count += len(self.all(cls_name))
+        return count
+    
+    def close(self):
+        """reload data"""
+        self.reload()

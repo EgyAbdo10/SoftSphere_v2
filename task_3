@@ -1,0 +1,17 @@
+1- set database objects using a console script:
+    1- create users --> "Abdelmoneim Maher", "Ahmed Maher", "Ahmed Shrief", "Abdullahi turkur"
+    2- create projects --> "project-X", "edumy", "fedora", "stormy"
+    3- create tools --> redis, docker, dataDog, nginx, scikit-learn, pytorch, Flask, REST APIs, sqlalchemy, html, jinja
+    4- create categories --> programming, marketing, gaming, video editing, accounting, education, photo editing, health, food
+    4- assign each user a project
+    5- assign some tools for each project
+    6- assign a category for each project
+
+2- flask web app
+    1- create a flask app
+    2- close storage session when reloading the website or closing it
+    3-define route "/softsphere"
+        1- show the landing page
+        2- dynamicly generate the category section
+        3- dynamicly generate the explore section to show all projects
+    4- run app with port 5000 and host "localhost" by default or get SOS_PORT or SOS_HOST env variables

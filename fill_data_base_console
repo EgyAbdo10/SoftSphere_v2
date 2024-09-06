@@ -1,0 +1,41 @@
+// create User {"first_name": "Abdelmoneim", "last_name": "Maher", "user_type": "developer", "username": "abdo-maher", "password": "123","email": "abdo@gmail.com"}
+// create User {"first_name": "Ahmed", "last_name": "Shrief", "user_type":"developer" , "username": "shefo", "password":"456" ,"email":"shefo@gmail.com"}
+// create User {"first_name": "Abdullahi", "last_name": "Tukur", "user_type": "developer", "username": "abdullahi-tukur", "password": "789","email":"abdullahi@yahoo.com"}
+// create User {"first_name": "Ahmed", "last_name": "maher", "user_type": "developer", "username": "ahmed-zayed", "password" : "h34","email": "almaher@gmail.com"}
+
+// redis, docker, dataDog, nginx,
+// scikit-learn, pyTorch,
+// Flask, REST APIs, sqlalchemy, html, jinja
+
+// create Tool {"name": "redis"}
+// create Tool {"name": "docker"}
+// create Tool {"name": "dataDog"}
+// create Tool {"name": "Nginx"}
+// create Tool {"name": "scikit-learn"}
+// create Tool {"name": "pyTorch"}
+// create Tool {"name": "Flask"}
+// create Tool {"name": "REST APIs"}
+// create Tool {"name": "sqlalchemy"}
+// create Tool {"name": "html"}
+// create Tool {"name": "jinja"}
+
+// create Category {"name": "programming"}
+// create Category {"name": "marketing"}
+// create Category {"name": "gaming"}
+// create Category {"name": "video editing"}
+// create Category {"name": "accounting"}
+// create Category {"name": "education"}
+// create Category {"name": "photo editing"}
+// create Category {"name": "health"}
+// create Category {"name": "food"}
+
+
+// create Project  {"name": "edumy","description": "Edumy is where your learning journey in tech field starts you can learn, apply, notice your weaknesses and get rid of them", "category_id": "8fba647d-5fb8-48de-bc1f-0688dad93327", "user_id": "11ff296e-cf0f-439b-9053-4a99bec90e18", "tools":["5a2805d6-7b49-44fe-a7bb-25ad59fd3350", "d5449a4a-0238-484b-8879-5963008996bb"]}
+// create Project {"name": "fedora", "description": "Fedora is an online app used to facilitate the process of ordering food from all favourite restaurants", "category_id": "78138635-226d-4b13-9a3d-9201bb0823e0", "user_id": "7c9208cb-d5b0-42bc-8179-4923b98830a9", "tools": ["f8386e4c-4196-40a0-bfcb-ede24e3c629b", "28657e8c-e8a8-4acc-b954-bf8e90956187"]}
+// create Project {"name": "project-X", "description": "this project is all about using rest apis to get data from all over the world by using REST APIs and also show the resluts in a user friendly way", "category_id": "aae7bcb8-c100-4b0d-b520-ed9496579e4e", "user_id": "11ff296e-cf0f-439b-9053-4a99bec90e18", "tools": ["21eefba7-7717-45d5-b175-eaf3f74e3f95", "e65fe920-7ac4-4642-b3ac-8fd407ebb2ca"]}
+// create Project {"name": "stormy", "description": "Stormy is an online platform for video editing it allows editors to unleash their best creativity ", "category_id": "1b2e6ae5-19cf-43c2-905b-8ae241290bc0", "user_id": "dfde6636-f2df-43a6-9dfc-3cfae5ce32a6", "tools": ["d9cdeb50-bbab-484a-8d8e-13f8c421f51f", "36d01861-bf78-4e0e-a14b-8f1dd167c6dd"]}
+
+// update Project 07f1fa56-3984-460b-ac6d-ff48ea46d227 {"tools":["5a2805d6-7b49-44fe-a7bb-25ad59fd3350", "d5449a4a-0238-484b-8879-5963008996bb"]}
+// update Project 6451c292-c452-4d88-8ec4-e1d9b9d6188a {"tools": ["f8386e4c-4196-40a0-bfcb-ede24e3c629b", "28657e8c-e8a8-4acc-b954-bf8e90956187"]}
+// update Project 47331846-ed58-4407-8aae-2c13bcf954ee {"tools": ["21eefba7-7717-45d5-b175-eaf3f74e3f95", "e65fe920-7ac4-4642-b3ac-8fd407ebb2ca"]}
+// update Project 6451c292-c452-4d88-8ec4-e1d9b9d6188a {"tools": ["d9cdeb50-bbab-484a-8d8e-13f8c421f51f", "36d01861-bf78-4e0e-a14b-8f1dd167c6dd"]}

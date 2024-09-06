@@ -25,6 +25,11 @@ class SoftSCommand(cmd.Cmd):
     """creata a console for the softsphere"""
     prompt = "(SoS) "
 
+    def onecmd(self, line):
+        """handle comments"""
+        if line.strip().startswith(("#", "//")):
+            return False
+        return super().onecmd(line)
 
     def do_quit(self, arg):
         """quit the console"""
@@ -57,6 +62,16 @@ class SoftSCommand(cmd.Cmd):
                 # to avoid teh space split issue
                 # create User {"first_name": "abdo", "last_name": "maher", "user_type": "developder", "username": "egyabdo", "password": "123", "email":"123@gmail.com"}
                 # create User {"first_name": "abdo", "last_name": "maher", "user_type": "developer", "username": "egyabdo", "password": "123", "email":"123@gmail.com"}
+                
+                # setting tools from the console by using their ids like the following:
+                #-->   "tools": ["12-4ded", "e3rde-ddf"]
+                if cls_name == "Project" and "tools" in attrs_dict:
+                    tool_ids = attrs_dict["tools"]
+                    tool_objs = []
+                    for tool_id in tool_ids:
+                        tool_objs.append(storage.find("Tool", tool_id))
+                    attrs_dict["tools"] = tool_objs
+
                 new_obj = cls_names[cls_name](**attrs_dict)
                 try:
                     new_obj.save()
@@ -108,6 +123,16 @@ class SoftSCommand(cmd.Cmd):
                 try:
                     attrs_dict = json.loads(" ".join(args_list[2:]))
                     print(attrs_dict)
+
+                    # setting tools from the console by using their ids like the following:
+                    #-->   "tools": ["12-4ded", "e3rde-ddf"]
+                    if cls_name == "Project" and "tools" in attrs_dict:
+                        tool_ids = attrs_dict["tools"]
+                        tool_objs = []
+                        for tool_id in tool_ids:
+                            tool_objs.append(storage.find("Tool", tool_id))
+                        attrs_dict["tools"] = tool_objs
+
                     for attr, val in attrs_dict.items():
                         setattr(obj, attr, val)
                     obj.save()
@@ -166,6 +191,13 @@ class SoftSCommand(cmd.Cmd):
             else:
                 storage.delete(obj)
 
+    def do_count(self, arg):
+        """
+        count all objects of a class
+        or count all pbject in the storage engine
+        if the no class name passed or even a wrong class name
+        """
+        print(storage.count(arg))
 
 if __name__ == "__main__":
     SoftSCommand().cmdloop()
