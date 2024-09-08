@@ -38,7 +38,9 @@
 	<section class="categories">
 		{% for category in categories %}
 		<article class="{{ category.name }}" data-id="{{ category.id }}">
-			<div></div>
+			<img src="../static/images/{{ category.name }}_icon.png?{{ cache_id }}"
+			alt="{{ category.name }}_icon"
+			loading="lazy" decoding="async"></img>
 			<span>{{ category.name }}</span>
 		</article>
 		{% endfor %}
@@ -47,12 +49,12 @@
 	<section class="explore">
 		{% for project in projects %}
 		<article class="{{ project.name }}">
-			<div class="poster">
-			</div>
+			<img class="poster" src="../static/images/{{ project.name }}_poster.jpg?{{ cache_id }}">
+			</img>
 			<div class="data">
 				<p class="project-name">{{ project.name }}</p>
 				<p class="category">Category: {{ project.category.name }}</p>
-				<p class="developer">developer: {{ project.owner.username}}</p>
+				<p class="developer">developer: {{ project.owner.username }}</p>
 				<p class="tools">
 				tools:
 				{% for tool in project.tools %}
@@ -73,6 +75,6 @@
 	</section>
 
 	<!-- Include jQuery here -->
-	<!-- <script src="scripts/scripts.js"></script> -->
+	<!-- <script src="scripts/0-sos.js"></script> -->
 </body>
 </html>
