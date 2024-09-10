@@ -20,24 +20,30 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """initialze a db storage instance"""
-        user = getenv("SOS_USR")
-        if not user:
-            user = "SOS_user"
-        passwd = getenv("SOS_PWD")
-        if not passwd:
-            passwd = "SOS_password"
-        host = getenv("SOS_HOST")
-        if not host:
-            host = "localhost"
-        db = getenv("SOS_DB")
-        if not db:
-            db = "SOS_db_dev"
+        """initialize a db storage instance"""
+        db = getenv("SOS_DB", "SOS_db.sqlite")
+
+        self.__engine = create_engine(f"sqlite:///{db}", echo=True)
+
+#    def __init__(self):
+#        """initialze a db storage instance"""
+#        user = getenv("SOS_USR")
+#        if not user:
+#            user = "SOS_user"
+#        passwd = getenv("SOS_PWD")
+#        if not passwd:
+#            passwd = "SOS_password"
+#        host = getenv("SOS_HOST")
+#        if not host:
+#            host = "localhost"
+#        db = getenv("SOS_DB")
+#        if not db:
+#            db = "SOS_db_dev"
         
         
-        self.__engine = create_engine(
-            f"""mysql+mysqldb://{user}:{passwd}@{host}/{db}""",
-            pool_pre_ping=True)
+#        self.__engine = create_engine(
+#            f"""mysql+mysqldb://{user}:{passwd}@{host}/{db}""",
+#            pool_pre_ping=True)
 
 
     def all(self, cls=None):
