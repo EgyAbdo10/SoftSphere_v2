@@ -38,7 +38,18 @@ class Project(BaseModel, Base):
         tools = relationship("Tool", secondary="project_tools", viewonly=False)
 
         def to_dict(self):
-            return super().to_dict()
+            """Convert Project instance to dictionary."""
+            dict_representation = super().to_dict()
+            dict_representation.update({
+                "name": self.name,
+                "description": self.description,
+                "video_url": self.video_url,
+                "images": self.images,
+                "category_id": self.category_id,
+                "user_id": self.user_id
+            })
+            return dict_representation
+            # return super().to_dict()
 
     else:
         name = ""
