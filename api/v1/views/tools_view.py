@@ -25,9 +25,12 @@ def create_tool():
     """Create a new tool"""
     data = request.get_json()
     if not data:
-        abort(400, description="No input data provided")
+        abort(400, description="Not a JSON")
     new_tool = Tool(**data)
-    new_tool.save()
+    error = new_tool.save()
+    if error:
+        return jsonify({"message": error}), 400
+
     return jsonify(new_tool.to_dict()), 201
 
 @app_views.route('/tools/<tool_id>', methods=['PUT'], strict_slashes=False)
@@ -35,13 +38,17 @@ def update_tool(tool_id):
     """Update a tool by ID"""
     data = request.get_json()
     if not data:
-        abort(400, description="No input data provided")
+        abort(400, description="Not a JSON")
     tool = storage.find("Tool", tool_id)
     if not tool:
         abort(404, description="Tool not found")
     for key, value in data.items():
         setattr(tool, key, value)
-    tool.save()
+
+    error = tool.save()
+    if error:
+        return jsonify({"message": error}), 400
+
     return jsonify(tool.to_dict())
 
 @app_views.route('/tools/<tool_id>', methods=['DELETE'], strict_slashes=False)

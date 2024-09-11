@@ -29,9 +29,12 @@ def create_category():
     """Create a new category"""
     data = request.get_json()
     if not data:
-        abort(400, description="No input data provided")
+        abort(400, description="Not a JSON")
     new_category = Category(**data)
-    new_category.save()
+    error = new_category.save()
+    if error:
+        return jsonify({"message": error}), 400
+
     return jsonify(new_category.to_dict()), 201
 
 @app_views.route('/categories/<category_id>', methods=['PUT'], strict_slashes=False)
@@ -39,13 +42,17 @@ def update_category(category_id):
     """Update a category by ID"""
     data = request.get_json()
     if not data:
-        abort(400, description="No input data provided")
+        abort(400, description="Not a JSON")
     category = storage.find("Category", category_id)
     if not category:
         abort(404, description="Category not found")
     for key, value in data.items():
         setattr(category, key, value)
-    category.save()
+
+    error = category.save()
+    if error:
+        return jsonify({"message": error}), 400
+
     return jsonify(category.to_dict())
 
 @app_views.route('/categories/<category_id>', methods=['DELETE'], strict_slashes=False)
