@@ -21,8 +21,7 @@ def home():
     return render_template("0-index.html",
                            categories=categories,
                            projects=projects,
-                           users=users,
                            cache_id=uuid4())
 
 if __name__ == "__main__":
-    app.run(port=5000, host="localhost", debug=True)
+    app.run(port=5000, host="0.0.0.0", debug=True, threaded=True)

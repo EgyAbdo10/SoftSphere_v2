@@ -38,7 +38,7 @@
 	<section class="categories">
 		{% for category in categories %}
 		<article class="{{ category.name }}" data-id="{{ category.id }}">
-			<img src="../static/images/{{ category.name }}_icon.png?{{ cache_id }}"
+			<img src="http://localhost:5000/static/images/{{ category.name }}_icon.png?{{ cache_id }}"
 			alt="{{ category.name }}_icon"
 			loading="lazy" decoding="async"></img>
 			<span>{{ category.name }}</span>
@@ -49,7 +49,7 @@
 	<section class="explore">
 		{% for project in projects %}
 		<article class="{{ project.name }}">
-			<img class="poster" src="../static/images/{{ project.name }}_poster.jpg?{{ cache_id }}">
+			<img class="poster" src="http://localhost:5000/static/images/{{ project.name }}_poster.jpg?{{ cache_id }}">
 			</img>
 			<div class="data">
 				<p class="project-name">{{ project.name }}</p>

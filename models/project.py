@@ -38,18 +38,10 @@ class Project(BaseModel, Base):
         tools = relationship("Tool", secondary="project_tools", viewonly=False)
 
         def to_dict(self):
-            """Convert Project instance to dictionary."""
-            dict_representation = super().to_dict()
-            dict_representation.update({
-                "name": self.name,
-                "description": self.description,
-                "video_url": self.video_url,
-                "images": self.images,
-                "category_id": self.category_id,
-                "user_id": self.user_id
-            })
-            return dict_representation
-            # return super().to_dict()
+            tool_ids = [tool.id for tool in self.tools]
+            dict_repr = super().to_dict()
+            dict_repr["tools"] = tool_ids
+            return dict_repr
 
     else:
         name = ""
@@ -58,18 +50,11 @@ class Project(BaseModel, Base):
         images = []
         category = ""
         user_id = ""
-    
+        tools = []
+        
         @property
-        def tools(self):
-            """get all tools used in the project"""
-            from models import storage
-            tools = storage.all(Tool)
-            used_tools = []
-            for tool in tools.values():
-                # save tool.project_id as a list of project ids
-                if getattr(tool, "project_id", None) == self.id:
-                    used_tools.append(tool)
-            return used_tools
+        def owner(self):
+            return getattr(self, "owner", None)
                     
 
     def __init__(self, **kwargs):

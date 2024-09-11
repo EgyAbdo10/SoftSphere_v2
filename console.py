@@ -5,7 +5,7 @@ creating, updating, showing and deleting objects
 """
 
 import cmd
-from models.base_model import BaseModel
+from models.base_model import BaseModel, storage_type
 from models.category import Category
 from models.project import Project
 from models.tools import Tool
@@ -65,12 +65,13 @@ class SoftSCommand(cmd.Cmd):
                 
                 # setting tools from the console by using their ids like the following:
                 #-->   "tools": ["12-4ded", "e3rde-ddf"]
-                if cls_name == "Project" and "tools" in attrs_dict:
-                    tool_ids = attrs_dict["tools"]
-                    tool_objs = []
-                    for tool_id in tool_ids:
-                        tool_objs.append(storage.find("Tool", tool_id))
-                    attrs_dict["tools"] = tool_objs
+                if storage_type == "db":
+                    if cls_name == "Project" and "tools" in attrs_dict:
+                        tool_ids = attrs_dict["tools"]
+                        tool_objs = []
+                        for tool_id in tool_ids:
+                            tool_objs.append(storage.find("Tool", tool_id))
+                        attrs_dict["tools"] = tool_objs
 
                 new_obj = cls_names[cls_name](**attrs_dict)
                 try:
@@ -95,7 +96,9 @@ class SoftSCommand(cmd.Cmd):
         the arg after all is optional
         if arg is not existed, print all of the objects from all classes
         """
-        print(storage.all(arg))
+        objs = storage.all(arg)
+        objs = [obj.to_dict() for obj in objs.values()]
+        print(objs)
 
     def do_update(self, arg):
         """
@@ -122,7 +125,6 @@ class SoftSCommand(cmd.Cmd):
             else:
                 try:
                     attrs_dict = json.loads(" ".join(args_list[2:]))
-                    print(attrs_dict)
 
                     # setting tools from the console by using their ids like the following:
                     #-->   "tools": ["12-4ded", "e3rde-ddf"]

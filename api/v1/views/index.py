@@ -12,9 +12,9 @@ def api_status():
 @app_views.route('/stats')
 def get_stats():
     stats = {
-        'projects': storage.count('Projects'),
-        'users': storage.count('Users'),
-        'categories': storage.count('Categories'),
-        'tools': storage.count('Tools')
+        'projects': storage.count('Project'),
+        'users': storage.count('User'),
+        'categories': storage.count('Category'),
+        'tools': storage.count('Tool')
     }
     return jsonify(stats)

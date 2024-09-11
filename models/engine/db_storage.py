@@ -20,30 +20,24 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """initialize a db storage instance"""
-        db = getenv("SOS_DB", "SOS_db.sqlite")
-
-        self.__engine = create_engine(f"sqlite:///{db}", echo=True)
-
-#    def __init__(self):
-#        """initialze a db storage instance"""
-#        user = getenv("SOS_USR")
-#        if not user:
-#            user = "SOS_user"
-#        passwd = getenv("SOS_PWD")
-#        if not passwd:
-#            passwd = "SOS_password"
-#        host = getenv("SOS_HOST")
-#        if not host:
-#            host = "localhost"
-#        db = getenv("SOS_DB")
-#        if not db:
-#            db = "SOS_db_dev"
+        """initialze a db storage instance"""
+        user = getenv("SOS_USR")
+        if not user:
+            user = "SOS_user"
+        passwd = getenv("SOS_PWD")
+        if not passwd:
+            passwd = "SOS_password"
+        host = getenv("SOS_HOST")
+        if not host:
+            host = "localhost"
+        db = getenv("SOS_DB")
+        if not db:
+            db = "SOS_db_dev"
         
         
-#        self.__engine = create_engine(
-#            f"""mysql+mysqldb://{user}:{passwd}@{host}/{db}""",
-#            pool_pre_ping=True)
+        self.__engine = create_engine(
+            f"""mysql+mysqldb://{user}:{passwd}@{host}/{db}""",
+            pool_pre_ping=True)
 
 
     def all(self, cls=None):
@@ -107,7 +101,27 @@ class DBStorage:
         obj = self.__session.query(
                 cls_names[cls_name]).filter_by(id=id).first()
         return obj
-    
+
+    def filter(self, cls_name, attr, condition, value):
+        """filter data based on a condition on only one column"""
+        conditions = {
+            "eq": lambda attr, val: attr == val,
+            "gt": lambda attr, val: attr > val,
+            "lt": lambda attr, val: attr < val,
+            "gte": lambda attr, val: attr >= val,
+            "lte": lambda attr, val: attr <= val,
+            "ne": lambda attr, val: attr != val,
+        }
+        if cls_name in cls_names: # check class
+            if hasattr(cls_names[cls_name], attr): # check attribute
+                    attr = getattr(cls_names[cls_name], attr)
+                    objs = self.__session.query(
+                            cls_names[cls_name]).filter(
+                                conditions[condition](attr, value)
+                            ).all()
+            return objs
+
+
     def count(self, cls_name=None):
         """
         count all objects of a class or 

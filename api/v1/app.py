@@ -28,7 +28,7 @@ def teardown_appcontext(exception):
 def not_found(error):
     response = {
         "error": "Not found",
-        # "message": str(error)  # this is optional brother,
+        # "message": str(error)  # this is optional,
                                  # include the actual error message
     }
     return jsonify(response), 404

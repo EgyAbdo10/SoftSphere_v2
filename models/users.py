@@ -30,7 +30,7 @@ class User(BaseModel, Base):
         def projects(self):
             """get all projectsof a certain user"""
             from models import storage
-            projects = storage.all("Project")
+            projects = storage.all("Project").values()
             user_projects = []
             for project in projects:
                 if project.user_id == self.id:

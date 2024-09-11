@@ -58,9 +58,11 @@ class FileStorage:
         the dictionary representaion of the objects (using to_dict())
         and then save the newly created dict to the .json file
         """
+        new_dict = {}
+        for key, val in self.all().items():
+            new_dict[key] = val.to_dict()
         with open(FileStorage.__file_path, "w") as f:
-            data_dict = self.all()
-            json.dump(data_dict, f)
+            json.dump(new_dict, f)
 
     def delete(self, obj):
         """delete an object and save changes to the file storage"""
@@ -102,7 +104,29 @@ class FileStorage:
             return self.__objects[f"{cls_name}.{id}"]
         except:
             return None
-        
+    
+    def filter(self, cls_name, attr, condition, value):
+        """filter data based on a condition on only one attribute"""
+        conditions = {
+            "eq": lambda attr, val: attr == val,
+            "gt": lambda attr, val: attr > val,
+            "lt": lambda attr, val: attr < val,
+            "gte": lambda attr, val: attr >= val,
+            "lte": lambda attr, val: attr <= val,
+            "ne": lambda attr, val: attr != val,
+        }
+        if cls_name in cls_names:
+            if condition not in conditions:
+                return None
+            objs = list(self.all(cls_name).values())
+            matched_objs = []
+            for obj in objs:
+                if conditions[condition](getattr(obj, attr, None), value):
+                    matched_objs.append(obj)
+            return matched_objs
+        else:
+            return None
+
 
     def count(self, cls_name=None):
         """

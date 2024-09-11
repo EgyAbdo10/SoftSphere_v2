@@ -8,6 +8,7 @@ from uuid import uuid4
 from datetime import datetime, timezone
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import String, Column, DateTime
+from sqlalchemy.exc import DataError, IntegrityError
 from models import storage_type
 
 if storage_type == "db":
@@ -51,8 +52,21 @@ class BaseModel:
         after modifying the "updated_at" attribute to time now in UTC
         """
         self.updated_at = datetime.now(timezone.utc)
-        storage.new(self)
-        storage.save()
+        try:
+            storage.new(self)
+            storage.save()
+            return None
+        except DataError as e:
+        # get the only first line of the error
+            storage.reload()
+            error = str(e)[:str(e).index("\n")]
+            return error
+        except IntegrityError as e:
+            storage.reload()
+            error = str(e)[:str(e).index("\n")]
+            return error
+        
+
 
     def to_dict(self):
         """
